@@ -2,12 +2,7 @@ var app = new Vue({
     el: '#app',
     data: {
         newMatch: '',
-        history: [
-            {points: 2621, date: '', change: 0},
-            {points: 2601, change: -20, date: ''},
-            {points: 2624, change: 23, date: ''},
-            {points: 2599, change: -25, date: ''}
-        ]
+        history: jsonHistory
     },
     methods: {
         changeClass: function (item) {
@@ -21,15 +16,20 @@ var app = new Vue({
         pushEntry: function () {
             var points = parseInt(this.newMatch);
             this.newMatch = '';
+            var change = 0;
+            if (this.history.length > 0) {
+                change = points - app.history[app.history.length - 1].points;
+            }
             app.history.push({
                 points: points,
-                change: points - app.history[app.history.length - 1].points,
+                change: change,
                 date: Date.now()
             });
+            document.getElementById('saving').querySelector('input[name=history]').value = JSON.stringify(this.history);
         },
 
         formatDate: function (date) {
-          return moment(date).format('E.M.Y H:m:s');
+          return moment(date).format('D.M.Y H:m:s');
         }
     }
 });
