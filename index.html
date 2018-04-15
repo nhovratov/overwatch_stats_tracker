@@ -21,25 +21,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="ow-history__points">2621</td>
-                        <td></td>
-                        <td>07.04.18 17:24</td>
-                    </tr>
-                    <tr>
-                        <td>2601</td>
-                        <td class="text-danger">-20</td>
-                        <td>07.04.18 18:24</td>
-                    </tr>
-                    <tr>
-                        <td>2624</td>
-                        <td class="text-success">+23</td>
-                        <td>07.04.18 19:24</td>
-                    </tr>
-                    <tr>
-                        <td>2599</td>
-                        <td class="text-danger">-25</td>
-                        <td>07.04.18 20:24</td>
+                    <tr v-for="(match, index) in history">
+                        <td>{{match.points}}</td>
+                        <td v-bind:class="changeClass(match)">{{match.change}}</td>
+                        <td>{{match.date}}</td>
                     </tr>
                 </tbody>
             </table>
