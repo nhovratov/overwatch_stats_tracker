@@ -15,6 +15,18 @@ var app = new Vue({
                 'text-danger': item.change < 0,
                 'text-warning': item.change === 0
             }
+        },
+
+        pushEntry: function (points) {
+            app.history.push({
+                points: points,
+                change: points - app.history[app.history.length - 1].points,
+                date: Date.now()
+            });
+        },
+
+        formatDate: function (date) {
+          return moment(date).format('E.M.Y H:m:s');
         }
     }
 });

@@ -5,6 +5,7 @@
     <title>Overwatch Match History</title>
     <link href="/css/contrib/bootstrap.min.css" rel="stylesheet">
     <script src="/js/contrib/vue.min.js"></script>
+    <script src="/js/contrib/moment.min.js"></script>
     <script src="/js/script.js" async=""></script>
 </head>
 <body class="pt-4">
@@ -24,7 +25,7 @@
                     <tr v-for="(match, index) in history">
                         <td>{{match.points}}</td>
                         <td v-bind:class="changeClass(match)">{{match.change}}</td>
-                        <td>{{match.date}}</td>
+                        <td>{{formatDate(match.date)}}</td>
                     </tr>
                 </tbody>
             </table>
