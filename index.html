@@ -12,6 +12,8 @@
 <div id="app">
     <div class="container">
         <h1>Overwatch Match History (Ranked)</h1>
+        <label for="newMatch">Match hinzufügen</label>
+        <input id="newMatch" class="form-control" v-model="newMatch" v-on:keyup.enter="pushEntry">
         <div class="ow-history">
             <table class="table">
                 <thead>

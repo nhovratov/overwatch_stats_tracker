@@ -1,6 +1,7 @@
 var app = new Vue({
     el: '#app',
     data: {
+        newMatch: '',
         history: [
             {points: 2621, date: '', change: 0},
             {points: 2601, change: -20, date: ''},
@@ -17,7 +18,9 @@ var app = new Vue({
             }
         },
 
-        pushEntry: function (points) {
+        pushEntry: function () {
+            var points = parseInt(this.newMatch);
+            this.newMatch = '';
             app.history.push({
                 points: points,
                 change: points - app.history[app.history.length - 1].points,
