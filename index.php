@@ -9,6 +9,7 @@ $json = $mysqli->query("SELECT json FROM match_history WHERE id_match = 1")->fet
     <meta charset="utf-8" lang="de">
     <title>Overwatch Match History</title>
     <link href="/css/contrib/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
     <script src="/js/contrib/vue.min.js"></script>
     <script src="/js/contrib/moment.min.js"></script>
     <script src="/js/script.js" async=""></script>
@@ -36,7 +37,7 @@ $json = $mysqli->query("SELECT json FROM match_history WHERE id_match = 1")->fet
                 <tr v-for="(match, index) in history">
                     <td>{{match.points}}</td>
                     <td v-bind:class="changeClass(match)">{{match.change}}</td>
-                    <td>{{formatDate(match.date)}}</td>
+                    <td v-bind:class="dateClass(match)">{{formatDate(match.date)}}</td>
                 </tr>
                 </tbody>
             </table>
