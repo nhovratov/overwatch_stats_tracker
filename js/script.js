@@ -29,7 +29,7 @@ var app = new Vue({
         },
 
         formatDate: function (date) {
-            return moment(date).format('D.M.Y H:m:s');
+            return moment(date).format('DD.MM.YYYY HH:mm:ss');
         },
 
         dateClass: function (item) {
@@ -39,7 +39,7 @@ var app = new Vue({
                 'bg-blue': date >= 12 && date < 16,
                 'bg-lila': date >= 16 && date < 20,
                 'bg-red': date >= 20 && date < 24,
-                'bg-orange': date >= 24 && date < 4,
+                'bg-orange': date >= 0 && date < 4,
                 'bg-yellow': date >= 4 && date < 8
             }
         }
