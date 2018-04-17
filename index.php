@@ -25,7 +25,7 @@ $json = $mysqli->query("SELECT json FROM match_history WHERE id_match = 1")->fet
             <input type="submit" value="abspeichern" class="btn btn-primary">
         </form>
         <div class="ow-history">
-            <table class="table">
+            <table class="table table-sm">
                 <thead>
                 <tr>
                     <th>Punkte</th>
@@ -35,7 +35,7 @@ $json = $mysqli->query("SELECT json FROM match_history WHERE id_match = 1")->fet
                 </thead>
                 <tbody>
                 <tr v-for="(match, index) in history">
-                    <td>{{match.points}}</td>
+                    <td v-bind:class="rankTier(match)">{{match.points}}<img v-bind:src="rankTier(match) | imagesrc"/></td>
                     <td v-bind:class="changeClass(match)">{{match.change}}</td>
                     <td v-bind:class="dateClass(match)">{{formatDate(match.date)}}</td>
                 </tr>
