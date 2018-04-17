@@ -19,7 +19,7 @@ var app = new Vue({
             this.newMatch = '';
             var change = 0;
             if (this.history.length > 0) {
-                change = points - app.history[app.history.length - 1].points;
+                change = points - app.history[0].points;
             }
             app.history.push({
                 points: points,
