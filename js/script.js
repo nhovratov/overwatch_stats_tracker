@@ -114,14 +114,28 @@ var app = new Vue({
             var temparray = [];
             var curKey = '';
             var nextKey = '';
+            var setDifference = function (temparray) {
+                var weekObj = temparray[temparray.length - 1] || {};
+                var matchesOfWeek = weekObj.matches;
+                weekObj.difference = matchesOfWeek[0].points - matchesOfWeek[matchesOfWeek.length - 1].points;
+                return weekObj;
+            };
             for (var i = 0; i < history.length; i++) {
                 nextKey = moment(history[i].date).format('WW.YY');
                 if (curKey !== nextKey) {
+                    var weekObj = {};
+                    if (temparray.length > 0) {
+                        setDifference(temparray);
+                    }
                     curKey = nextKey;
-                    temparray.push({week: curKey, matches: []});
+                    weekObj.week = curKey;
+                    weekObj.matches = [];
+                    temparray.push(weekObj);
+                    weekObj = {};
                 }
                 temparray[temparray.length - 1].matches.push(history[i]);
             }
+            setDifference(temparray);
             return temparray;
         }
 
