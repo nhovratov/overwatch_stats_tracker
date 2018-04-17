@@ -49,3 +49,19 @@
 .grandmaster {
     background-color: #fff9e4;
 }
+
+.table-sm td {
+    padding-left: 1rem;
+}
+
+.table td:nth-child(1) {
+    font-size: 1.25rem;
+}
+
+.table td:nth-child(1) img {
+    margin-left: 0.3rem;
+}
+
+.table td:nth-child(2) {
+    font-size: 1.2rem;
+}

@@ -29,7 +29,20 @@ var app = new Vue({
         },
 
         formatDate: function (date) {
-            return moment(date).format('DD.MM.YYYY HH:mm:ss');
+            moment.locale('de');
+            moment.weekdays(true, 1);
+            moment.updateLocale('de', {
+                weekdays : [
+                    'Sonntag',
+                    'Montag',
+                    'Dienstag',
+                    'Mittwoch',
+                    'Donnerstag',
+                    'Freitag',
+                    'Samstag'
+                ]
+            });
+            return moment(date).format('dddd (DD MMMM YYYY | HH:mm)');
         },
 
         dateClass: function (item) {
@@ -75,6 +88,12 @@ var app = new Vue({
     filters: {
         imagesrc: function (image) {
             return '/images/' + image + '.png';
+        },
+        change: function (change) {
+            if (change > 0) {
+                return "+" + change;
+            }
+            return change;
         }
     }
 });

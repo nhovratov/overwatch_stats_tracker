@@ -28,15 +28,15 @@ $json = $mysqli->query("SELECT json FROM match_history WHERE id_match = 1")->fet
             <table class="table table-sm">
                 <thead>
                 <tr>
-                    <th>Punkte</th>
-                    <th>Änderung</th>
-                    <th>Uhrzeit</th>
+                    <th style="width: 33.333%">Punkte</th>
+                    <th style="width: 33.333%">Änderung</th>
+                    <th style="width: 33.333%">Uhrzeit</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="(match, index) in history">
                     <td v-bind:class="rankTier(match)">{{match.points}}<img v-bind:src="rankTier(match) | imagesrc"/></td>
-                    <td v-bind:class="changeClass(match)">{{match.change}}</td>
+                    <td v-bind:class="changeClass(match)">{{match.change | change}}</td>
                     <td v-bind:class="dateClass(match)">{{formatDate(match.date)}}</td>
                 </tr>
                 </tbody>
