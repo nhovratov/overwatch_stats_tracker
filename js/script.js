@@ -33,7 +33,7 @@ var app = new Vue({
             moment.locale('de');
             moment.weekdays(true, 1);
             moment.updateLocale('de', {
-                weekdays : [
+                weekdays: [
                     'Sonntag',
                     'Montag',
                     'Dienstag',
@@ -83,7 +83,13 @@ var app = new Vue({
                     return 'grandmaster'
             }
 
-        }
+        },
+
+        historyDescending: function () {
+            return this.history.sort(function (x, y) {
+                return y.date - x.date;
+            });
+        },
 
     },
     filters: {
@@ -103,10 +109,20 @@ var app = new Vue({
 
     computed: {
 
-        historyDescending: function () {
-            return this.history.sort(function (x, y) {
-                return y.date - x.date;
-            });
+        chunkedMonths: function () {
+            var history = this.historyDescending();
+            var temparray = [];
+            var curKey = '';
+            var nextKey = '';
+            for (var i = 0; i < history.length; i++) {
+                nextKey = moment(history[i].date).format('ww.YY');
+                if (curKey !== nextKey) {
+                    curKey = nextKey;
+                    temparray.push({week: curKey, matches: []});
+                }
+                temparray[temparray.length - 1].matches.push(history[i]);
+            }
+            return temparray;
         }
 
     }

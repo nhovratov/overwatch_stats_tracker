@@ -24,7 +24,8 @@ $json = $mysqli->query("SELECT json FROM match_history WHERE id_match = 1")->fet
             <input type="hidden" value="" name="history">
             <input type="submit" value="abspeichern" class="btn btn-primary">
         </form>
-        <div class="ow-history">
+        <div class="ow-history" v-for="(week, index) in chunkedMonths">
+            <h2>{{week.week}}</h2>
             <table class="table table-sm">
                 <thead>
                 <tr>
@@ -34,7 +35,7 @@ $json = $mysqli->query("SELECT json FROM match_history WHERE id_match = 1")->fet
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(match, index) in historyDescending">
+                <tr v-for="(match, index) in week.matches">
                     <td v-bind:class="rankTier(match)">{{match.points}}<img v-bind:src="rankTier(match) | imagesrc"/></td>
                     <td v-bind:class="changeClass(match)">{{match.change | change}}</td>
                     <td v-bind:class="dateClass(match)">{{formatDate(match.date)}}</td>
