@@ -115,7 +115,7 @@ var app = new Vue({
             var curKey = '';
             var nextKey = '';
             for (var i = 0; i < history.length; i++) {
-                nextKey = moment(history[i].date).format('ww.YY');
+                nextKey = moment(history[i].date).format('WW.YY');
                 if (curKey !== nextKey) {
                     curKey = nextKey;
                     temparray.push({week: curKey, matches: []});
