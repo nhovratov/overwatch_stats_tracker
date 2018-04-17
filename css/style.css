@@ -21,3 +21,31 @@
 .bg-yellow {
     background-color: #ffed66;
 }
+
+.bronze {
+    background-color: #bd6657;
+}
+
+.silver {
+    background-color: #acabac;
+}
+
+.gold {
+    background-color: #ece499;
+}
+
+.platinum {
+    background-color: #a8b9b8;
+}
+
+.diamond {
+    background-color: #97a4ce;
+}
+
+.master {
+    background-color: #f3b953;
+}
+
+.grandmaster {
+    background-color: #fff9e4;
+}
