@@ -4,6 +4,7 @@ var app = new Vue({
         newMatch: '',
         history: jsonHistory
     },
+
     methods: {
         changeClass: function (item) {
             return {
@@ -86,14 +87,28 @@ var app = new Vue({
 
     },
     filters: {
+
         imagesrc: function (image) {
             return '/images/' + image + '.png';
         },
+
         change: function (change) {
             if (change > 0) {
                 return "+" + change;
             }
             return change;
         }
+
+    },
+
+    computed: {
+
+        historyDescending: function () {
+            return this.history.sort(function (x, y) {
+                return y.date - x.date;
+            });
+        }
+
     }
+
 });

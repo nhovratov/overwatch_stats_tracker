@@ -34,7 +34,7 @@ $json = $mysqli->query("SELECT json FROM match_history WHERE id_match = 1")->fet
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(match, index) in history">
+                <tr v-for="(match, index) in historyDescending">
                     <td v-bind:class="rankTier(match)">{{match.points}}<img v-bind:src="rankTier(match) | imagesrc"/></td>
                     <td v-bind:class="changeClass(match)">{{match.change | change}}</td>
                     <td v-bind:class="dateClass(match)">{{formatDate(match.date)}}</td>
