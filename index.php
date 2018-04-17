@@ -25,7 +25,7 @@ $json = $mysqli->query("SELECT json FROM match_history WHERE id_match = 1")->fet
             <input type="submit" value="abspeichern" class="btn btn-primary">
         </form>
         <div class="ow-history" v-for="(week, index) in chunkedMonths">
-            <h2>{{week.week}} ({{(week.difference)}})</h2>
+            <h2>{{week.week}} ({{week.difference | change}})</h2>
             <table class="table table-sm">
                 <thead>
                 <tr>
