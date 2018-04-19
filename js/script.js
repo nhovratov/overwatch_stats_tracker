@@ -2,7 +2,7 @@ var app = new Vue({
     el: '#app',
     data: {
         newMatch: '',
-        isNotSaved: false,
+        isSaved: true,
         notSavedEntriesCount: 0,
         history: jsonHistory
     },
@@ -19,17 +19,26 @@ var app = new Vue({
         pushEntry: function () {
             var points = parseInt(this.newMatch);
             this.newMatch = '';
-            var change = 0;
-            if (this.history.length > 0) {
-                change = points - app.history[0].points;
-            }
+
             app.history.push({
                 points: points,
-                change: change,
+                change: this.getPointsChange(points),
                 date: Date.now()
             });
-            this.isNotSaved = true;
+            this.isSaved = false;
             this.notSavedEntriesCount++;
+            this.upDateSaveData();
+        },
+
+        getPointsChange: function (newPoints) {
+            var change = 0;
+            if (this.history.length > 0) {
+                change = newPoints - this.history[0].points;
+            }
+            return change;
+        },
+
+        upDateSaveData: function () {
             document.getElementById('saving').querySelector('input[name=history]').value = JSON.stringify(this.history);
         },
 
@@ -94,6 +103,23 @@ var app = new Vue({
                 return y.date - x.date;
             });
         },
+
+        saveEntryWithButton: function (e) {
+            var input = document.getElementById('newMatch');
+            if (input.value !== '') {
+                e.preventDefault();
+                var points = parseInt(input.value);
+                this.pushEntry({
+                    points: points,
+                    change: points,
+                    date: Date.now()
+                });
+                this.upDateSaveData();
+                document.getElementById('saving').submit();
+            } else if (this.isSaved) {
+                e.preventDefault();
+            }
+        }
 
     },
     filters: {
