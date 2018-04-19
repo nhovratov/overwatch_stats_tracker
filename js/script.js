@@ -2,6 +2,8 @@ var app = new Vue({
     el: '#app',
     data: {
         newMatch: '',
+        isNotSaved: false,
+        notSavedEntriesCount: 0,
         history: jsonHistory
     },
 
@@ -26,6 +28,8 @@ var app = new Vue({
                 change: change,
                 date: Date.now()
             });
+            this.isNotSaved = true;
+            this.notSavedEntriesCount++;
             document.getElementById('saving').querySelector('input[name=history]').value = JSON.stringify(this.history);
         },
 

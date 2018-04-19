@@ -22,7 +22,7 @@ $json = $mysqli->query("SELECT json FROM match_history WHERE id_match = 1")->fet
         <input id="newMatch" class="form-control" v-model="newMatch" v-on:keyup.enter="pushEntry">
         <form id="saving" method="post" action="/php/database.php" class="mt-4 mb-4">
             <input type="hidden" value="" name="history">
-            <input type="submit" value="abspeichern" class="btn btn-primary">
+            <input type="submit" value="abspeichern" class="btn btn-primary"><small class="ml-2" v-if="isNotSaved">Ungesicherte Einträge: {{notSavedEntriesCount}}</small>
         </form>
         <div class="ow-history" v-for="(week, index) in chunkedMonths">
             <h2>{{week.week}} ({{week.difference | change}})</h2>
