@@ -1,0 +1,9 @@
+RewriteEngine On
+
+RewriteRule ^api/history$ php/history.php [NC]
+RewriteRule ^api/history/push$ php/database.php [NC]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule .* index.php [L]

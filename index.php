@@ -1,8 +1,3 @@
-<?php
-$mysqli = new mysqli('localhost', 'nikita', 'dev', 'nele_overwatch');
-$mysqli->set_charset('utf8');
-$json = $mysqli->query("SELECT json FROM match_history WHERE id_match = 1")->fetch_assoc()['json'];
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,8 +40,5 @@ $json = $mysqli->query("SELECT json FROM match_history WHERE id_match = 1")->fet
         </div>
     </div>
 </div>
-<script>
-    var jsonHistory = <?=$json?>
-</script>
 </body>
 </html>

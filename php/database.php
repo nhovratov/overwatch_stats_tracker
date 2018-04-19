@@ -6,6 +6,6 @@ if (isset($_POST['history']) && $_POST['history'] !== '') {
     $json = $_POST['history'];
     $mysqli->query("UPDATE match_history SET json = '$json' WHERE id_match = 1");
     echo "Deine Matchhistory wurde gespeichert <3";
+} else {
+    echo "Something went wrong :(";
 }
-
-header('Location: /');

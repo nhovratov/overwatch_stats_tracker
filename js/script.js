@@ -4,10 +4,28 @@ var app = new Vue({
         newMatch: '',
         isSaved: true,
         notSavedEntriesCount: 0,
-        history: jsonHistory
+        history: []
+    },
+
+    beforeMount: function () {
+        this.fetchHistory();
     },
 
     methods: {
+
+        fetchHistory: function () {
+            fetch('/api/history')
+                .then(res => res.text())
+                .then(res => {
+                    this.history = JSON.parse(res);
+                });
+        },
+
+        resetSaveState: function () {
+            this.isSaved = true;
+            this.notSavedEntriesCount = 0;
+        },
+
         changeClass: function (item) {
             return {
                 'alert-success': item.change > 0,
@@ -27,7 +45,7 @@ var app = new Vue({
             });
             this.isSaved = false;
             this.notSavedEntriesCount++;
-            this.upDateSaveData();
+            this.updateSaveData();
         },
 
         getPointsChange: function (newPoints) {
@@ -38,7 +56,7 @@ var app = new Vue({
             return change;
         },
 
-        upDateSaveData: function () {
+        updateSaveData: function () {
             document.getElementById('saving').querySelector('input[name=history]').value = JSON.stringify(this.history);
         },
 
@@ -104,6 +122,16 @@ var app = new Vue({
             });
         },
 
+        saveData: function () {
+            fetch(new Request('/api/history/push', {
+                method: 'POST',
+                body: (new FormData(document.getElementById('saving')))
+            })).then(() => {
+                this.fetchHistory();
+                this.resetSaveState();
+            });
+        },
+
         saveEntryWithButton: function (e) {
             var input = document.getElementById('newMatch');
             if (input.value !== '') {
@@ -114,10 +142,13 @@ var app = new Vue({
                     change: points,
                     date: Date.now()
                 });
-                this.upDateSaveData();
-                document.getElementById('saving').submit();
+                this.updateSaveData();
+                this.saveData();
             } else if (this.isSaved) {
                 e.preventDefault();
+            } else {
+                e.preventDefault();
+                this.saveData();
             }
         }
 
@@ -144,6 +175,9 @@ var app = new Vue({
             var temparray = [];
             var curKey = '';
             var nextKey = '';
+            if (history.length === 0) {
+                return [];
+            }
             var setDifference = function (temparray) {
                 var weekObj = temparray[temparray.length - 1] || {};
                 var matchesOfWeek = weekObj.matches;
