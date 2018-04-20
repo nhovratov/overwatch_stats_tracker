@@ -45,7 +45,6 @@ var app = new Vue({
             });
             this.isSaved = false;
             this.notSavedEntriesCount++;
-            this.updateSaveData();
         },
 
         getPointsChange: function (newPoints) {
@@ -54,10 +53,6 @@ var app = new Vue({
                 change = newPoints - this.history[0].points;
             }
             return change;
-        },
-
-        updateSaveData: function () {
-            document.getElementById('saving').querySelector('input[name=history]').value = JSON.stringify(this.history);
         },
 
         formatDate: function (date) {
@@ -123,9 +118,11 @@ var app = new Vue({
         },
 
         saveData: function () {
+            var form = new FormData();
+            form.append('history', JSON.stringify(this.history));
             fetch(new Request('/api/history/push', {
                 method: 'POST',
-                body: (new FormData(document.getElementById('saving')))
+                body: form
             })).then(() => {
                 this.fetchHistory();
                 this.resetSaveState();
@@ -142,7 +139,6 @@ var app = new Vue({
                     change: points,
                     date: Date.now()
                 });
-                this.updateSaveData();
                 this.saveData();
             } else if (this.isSaved) {
                 e.preventDefault();
@@ -156,7 +152,6 @@ var app = new Vue({
             this.history.shift();
             this.isSaved = false;
             this.notSavedEntriesCount++;
-            this.updateSaveData();
         }
 
     },

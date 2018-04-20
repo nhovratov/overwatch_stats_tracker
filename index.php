@@ -13,12 +13,11 @@
 <div id="app">
     <div class="container">
         <h1>Overwatch Match History (Ranked)</h1>
-        <label for="newMatch">Match hinzufügen</label>
-        <input id="newMatch" class="form-control" v-model="newMatch" v-on:keyup.enter="pushEntry">
-        <form id="saving" method="post" action="/php/database.php" class="mt-4 mb-4">
-            <input type="hidden" value="" name="history">
-            <input v-on:click="saveEntryWithButton" type="submit" value="abspeichern" class="btn btn-primary"><small class="ml-2" v-if="!isSaved">Ungesicherte Änderungen: {{notSavedEntriesCount}}</small>
-        </form>
+        <label for="newMatch">Match hinzufügen</label><small class="ml-2" v-if="!isSaved">(Ungesicherte Änderungen: {{notSavedEntriesCount}})</small>
+        <div class="matchbox d-flex mb-4">
+            <input id="newMatch" class="form-control mr-4" v-model="newMatch" v-on:keyup.enter="pushEntry">
+            <button v-on:click="saveEntryWithButton" class="btn btn-primary">Abspeichern</button>
+        </div>
         <div class="ow-history" v-for="(week, indexOuter) in chunkedMonths">
             <h2>{{week.week}} ({{week.difference | change}})</h2>
             <table class="table table-sm">
@@ -31,8 +30,11 @@
                 </thead>
                 <tbody>
                 <tr v-for="(match, index) in week.matches">
-                    <td v-bind:class="rankTier(match)">{{match.points}}<img v-bind:src="rankTier(match) | imagesrc"/></td>
-                    <td v-bind:class="changeClass(match)">{{match.change | change}}<i v-if="indexOuter == 0 && index == 0" v-on:click="removeLastEntry" class="remove"></i></td>
+                    <td v-bind:class="rankTier(match)">{{match.points}}<img v-bind:src="rankTier(match) | imagesrc"/>
+                    </td>
+                    <td v-bind:class="changeClass(match)">{{match.change | change}}<i
+                                v-if="indexOuter == 0 && index == 0" v-on:click="removeLastEntry" class="remove"></i>
+                    </td>
                     <td v-bind:class="dateClass(match)">{{formatDate(match.date)}}</td>
                 </tr>
                 </tbody>

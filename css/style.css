@@ -70,26 +70,38 @@
 .remove {
     position: absolute;
     right: 20px;
-    top: 20px;
+    top: 8px;
     cursor: pointer;
+    background-color: #f5a4a2;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
 }
 
 .remove:before {
     display: block;
     content: '';
-    width: 18px;
-    height: 3px;
-    background-color: #cf1f1f;
+    width: 20px;
+    height: 2px;
+    background-color: #770700;
     transform: rotate(-45deg);
+    position: relative;
+    left: 7px;
 }
 
 .remove:after {
     content: '';
     display: block;
-    width: 18px;
-    height: 3px;
-    background-color: #cf1f1f;
+    width: 20px;
+    height: 2px;
+    background-color: #770700;
     transform: rotate(45deg);
     position: relative;
-    top: -3px;
+    right: 5px;
+}
+
+.matchbox {
+    width: 400px;
 }
