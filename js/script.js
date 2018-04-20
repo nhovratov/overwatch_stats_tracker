@@ -150,6 +150,13 @@ var app = new Vue({
                 e.preventDefault();
                 this.saveData();
             }
+        },
+
+        removeLastEntry: function () {
+            this.history.shift();
+            this.isSaved = false;
+            this.notSavedEntriesCount++;
+            this.updateSaveData();
         }
 
     },

@@ -51,6 +51,7 @@
 }
 
 .table-sm td {
+    position: relative;
     padding-left: 1rem;
 }
 
@@ -64,4 +65,31 @@
 
 .table td:nth-child(2) {
     font-size: 1.2rem;
+}
+
+.remove {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.remove:before {
+    display: block;
+    content: '';
+    width: 18px;
+    height: 3px;
+    background-color: #cf1f1f;
+    transform: rotate(-45deg);
+}
+
+.remove:after {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 3px;
+    background-color: #cf1f1f;
+    transform: rotate(45deg);
+    position: relative;
+    top: -3px;
 }
