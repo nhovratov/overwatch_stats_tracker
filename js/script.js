@@ -15,9 +15,9 @@ var app = new Vue({
 
         fetchHistory: function () {
             fetch('/api/history')
-                .then(res => res.text())
+                .then(res => res.json())
                 .then(res => {
-                    this.history = JSON.parse(res);
+                    this.history = res;
                 });
         },
 
