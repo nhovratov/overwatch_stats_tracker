@@ -32,8 +32,8 @@
                 <tr v-for="(match, index) in week.matches">
                     <td v-bind:class="rankTier(match)">{{match.points}}<img v-bind:src="rankTier(match) | imagesrc"/>
                     </td>
-                    <td v-bind:class="changeClass(match)">{{match.change | change}}<i
-                                v-if="indexOuter == 0 && index == 0" v-on:click="removeLastEntry" class="remove"></i>
+                    <td v-bind:class="changeClass(match)">{{match.change | change}}<button
+                                v-if="indexOuter == 0 && index == 0" v-on:click="removeLastEntry" class="btn btn-danger btn-sm remove">Löschen</button>
                     </td>
                     <td v-bind:class="dateClass(match)">{{formatDate(match.date)}}</td>
                 </tr>
