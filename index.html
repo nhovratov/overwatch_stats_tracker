@@ -5,6 +5,12 @@
     <title>Overwatch Match History</title>
     <link href="/css/contrib/bootstrap.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <script src="/js/contrib/jquery.slim.min.js"></script>
+    <script>
+        jQuery.noConflict();
+    </script>
+    <script src="/js/contrib/popper.min.js"></script>
+    <script src="/js/contrib/bootstrap.min.js"></script>
     <script src="/js/contrib/vue.min.js"></script>
     <script src="/js/contrib/moment.min.js"></script>
     <script src="/js/script.js" async=""></script>
@@ -12,6 +18,15 @@
 <body class="pt-4">
 <div id="app">
     <div class="container">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Navigation
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="/">Startseite</a>
+                <a class="dropdown-item" href="/statistiken">Statistiken</a>
+            </div>
+        </div>
         <h1>Overwatch Match History (Ranked)</h1>
         <label for="newMatch">Match hinzufügen</label><small class="ml-2" v-if="!isSaved">(Ungesicherte Änderungen: {{notSavedEntriesCount}})</small>
         <div class="matchbox d-flex mb-4">
