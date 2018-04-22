@@ -2,6 +2,14 @@ var app = new Vue({
     el: '#app',
     data: {
         history: [],
+        matchCounts: {
+            "0-4": "0",
+            "4-8": "0",
+            "8-12": "0",
+            "12-16": "0",
+            "16-20": "0",
+            "20-24": "0",
+        },
         dataProvider: [{
             "category": "Win Percent",
             "0-4": "0",
@@ -65,6 +73,7 @@ var app = new Vue({
             });
             Object.keys(data).map(function (objectKey, index) {
                 var length = data[objectKey].length;
+                app.matchCounts[objectKey] = length;
                 var wins = 0;
                 data[objectKey] = data[objectKey].forEach((value) => {
                     if (value) {
@@ -90,7 +99,7 @@ var app = new Vue({
                     "trendLines": [],
                     "graphs": [
                         {
-                            "balloonText": "[[title]] of [[category]]:[[value]]",
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCounts["0-4"] + ")",
                             "fillAlphas": 1,
                             "id": "AmGraph-1",
                             "title": "0-4 Uhr",
@@ -99,7 +108,7 @@ var app = new Vue({
                             "valueField": "0-4"
                         },
                         {
-                            "balloonText": "[[title]] of [[category]]:[[value]]%",
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCounts["4-8"] + ")",
                             "fillAlphas": 1,
                             "id": "AmGraph-2",
                             "title": "4-8 Uhr",
@@ -108,7 +117,7 @@ var app = new Vue({
                             "valueField": "4-8"
                         },
                         {
-                            "balloonText": "[[title]] of [[category]]:[[value]]%",
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCounts["8-12"] + ")",
                             "fillAlphas": 1,
                             "id": "AmGraph-3",
                             "title": "8-12 Uhr",
@@ -117,7 +126,7 @@ var app = new Vue({
                             "valueField": "8-12"
                         },
                         {
-                            "balloonText": "[[title]] of [[category]]:[[value]]%",
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCounts["12-16"] + ")",
                             "fillAlphas": 1,
                             "id": "AmGraph-4",
                             "title": "12-16 Uhr",
@@ -126,7 +135,7 @@ var app = new Vue({
                             "valueField": "12-16"
                         },
                         {
-                            "balloonText": "[[title]] of [[category]]:[[value]]%",
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCounts["16-20"] + ")",
                             "fillAlphas": 1,
                             "id": "AmGraph-5",
                             "title": "16-20",
@@ -135,7 +144,7 @@ var app = new Vue({
                             "valueField": "16-20"
                         },
                         {
-                            "balloonText": "[[title]] of [[category]]:[[value]]%",
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCounts["20-24"] + ")",
                             "fillAlphas": 1,
                             "id": "AmGraph-6",
                             "title": "20-24",
