@@ -10,6 +10,15 @@ var app = new Vue({
             "16-20": "0",
             "20-24": "0",
         },
+        matchCountsWeekdays: {
+            "Montag": "0",
+            "Dienstag": "0",
+            "Mittwoch": "0",
+            "Donnerstag": "0",
+            "Freitag": "0",
+            "Samstag": "0",
+            "Sonntag": "0",
+        },
         dataProvider: [{
             "category": "Win Percent",
             "0-4": "0",
@@ -18,11 +27,32 @@ var app = new Vue({
             "12-16": "0",
             "16-20": "0",
             "20-24": "0",
-        }]
+        }],
+        dataProviderWeekdays: [{
+            "category": "Win Percent",
+            "Montag": "0",
+            "Dienstag": "0",
+            "Mittwoch": "0",
+            "Donnerstag": "0",
+            "Freitag": "0",
+            "Samstag": "0",
+            "Sonntag": "0"
+        }],
     },
 
     beforeMount: function () {
         this.fetchHistory();
+        moment.updateLocale('de', {
+            weekdays: [
+                'Sonntag',
+                'Montag',
+                'Dienstag',
+                'Mittwoch',
+                'Donnerstag',
+                'Freitag',
+                'Samstag'
+            ]
+        });
     },
 
     methods: {
@@ -35,6 +65,7 @@ var app = new Vue({
                 })
                 .then(() => {
                     this.calculateWinPercent();
+                    this.calculateWinPercentWeekdays();
                     this.makeChart();
                 })
         },
@@ -75,12 +106,44 @@ var app = new Vue({
                 var length = data[objectKey].length;
                 app.matchCounts[objectKey] = length;
                 var wins = 0;
-                data[objectKey] = data[objectKey].forEach((value) => {
+                data[objectKey].forEach((value) => {
                     if (value) {
                         wins += 1;
                     }
                 });
                 app.dataProvider[0][objectKey] = ((wins / length) * 100).toFixed(2);
+            });
+        },
+
+        calculateWinPercentWeekdays: function () {
+            var data = {
+                "Montag": [],
+                "Dienstag": [],
+                "Mittwoch": [],
+                "Donnerstag": [],
+                "Freitag": [],
+                "Samstag": [],
+                "Sonntag": []
+            };
+            moment.locale('de');
+            this.history.forEach((match, index) => {
+                if (parseInt(match.change) === 0) {
+                    return;
+                }
+                var win = parseInt(match.change) > 0;
+                var weekday = moment(match.date).format('dddd');
+                data[weekday].push(win);
+            });
+            Object.keys(data).map(function (key, index) {
+                var length = data[key].length;
+                app.matchCountsWeekdays[key] = length;
+                var wins = 0;
+                data[key].forEach((value) => {
+                    if (value) {
+                        wins += 1;
+                    }
+                });
+                app.dataProviderWeekdays[0][key] = ((wins / length) * 100).toFixed(2);
             });
         },
 
@@ -170,10 +233,104 @@ var app = new Vue({
                         {
                             "id": "Winrate nach Uhrzeit",
                             "size": 15,
-                            "text": "Chart Title"
+                            "text": "Winrate nach Uhrzeit"
                         }
                     ],
                     "dataProvider": this.dataProvider
+                }
+            );
+
+            AmCharts.makeChart("chartdivWeekdays",
+                {
+                    "type": "serial",
+                    "categoryField": "category",
+                    "rotate": true,
+                    "startDuration": 1,
+                    "fontSize": 12,
+                    "theme": "default",
+                    "categoryAxis": {
+                        "gridPosition": "start"
+                    },
+                    "trendLines": [],
+                    "graphs": [
+                        {
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCountsWeekdays["Montag"] + ")",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-1",
+                            "title": "Montag",
+                            "type": "column",
+                            "valueField": "Montag"
+                        },
+                        {
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCountsWeekdays["Dienstag"] + ")",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-2",
+                            "title": "Dienstag",
+                            "type": "column",
+                            "valueField": "Dienstag"
+                        },
+                        {
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCountsWeekdays["Mittwoch"] + ")",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-3",
+                            "title": "Mittwoch",
+                            "type": "column",
+                            "valueField": "Mittwoch"
+                        },
+                        {
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCountsWeekdays["Donnerstag"] + ")",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-4",
+                            "title": "Donnerstag",
+                            "type": "column",
+                            "valueField": "Donnerstag"
+                        },
+                        {
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCountsWeekdays["Freitag"] + ")",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-5",
+                            "title": "Freitag",
+                            "type": "column",
+                            "valueField": "Freitag"
+                        },
+                        {
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCountsWeekdays["Samstag"] + ")",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-6",
+                            "title": "Samstag",
+                            "type": "column",
+                            "valueField": "Samstag"
+                        },
+                        {
+                            "balloonText": "[[title]]: [[value]]% (" + app.matchCountsWeekdays["Sonntag"] + ")",
+                            "fillAlphas": 1,
+                            "id": "AmGraph-7",
+                            "title": "Sonntag",
+                            "type": "column",
+                            "valueField": "Sonntag"
+                        },
+                    ],
+                    "guides": [],
+                    "valueAxes": [
+                        {
+                            "id": "ValueAxis-1",
+                            "title": ""
+                        }
+                    ],
+                    "allLabels": [],
+                    "balloon": {},
+                    "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                    },
+                    "titles": [
+                        {
+                            "id": "Winrate nach Wochentag",
+                            "size": 15,
+                            "text": "Winrate nach Wochentag"
+                        }
+                    ],
+                    "dataProvider": this.dataProviderWeekdays
                 }
             );
         }
