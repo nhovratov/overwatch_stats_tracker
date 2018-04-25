@@ -202,6 +202,7 @@ var app = new Vue({
                 temparray[temparray.length - 1].matches.push(history[i]);
             }
             setDifference(temparray);
+            console.log(temparray);
             return temparray;
         }
 

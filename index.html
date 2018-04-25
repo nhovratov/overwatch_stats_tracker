@@ -34,7 +34,7 @@
             <button v-on:click="saveEntryWithButton" class="btn btn-primary">Abspeichern</button>
         </div>
         <div class="ow-history" v-for="(week, indexOuter) in chunkedMonths">
-            <h2>{{week.week}} ({{week.difference | change}})</h2>
+            <h2>{{week.week}} (Spiele: {{week.matches.length}}) ({{week.difference | change}})</h2>
             <table class="table table-sm">
                 <thead>
                 <tr>
