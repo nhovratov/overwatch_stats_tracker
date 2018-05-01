@@ -20,13 +20,23 @@
 <body class="pt-4">
 <div id="app">
     <div class="container">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Navigation
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="/">Startseite</a>
-                <a class="dropdown-item" href="/statistiken">Statistiken</a>
+        <div class="row">
+            <div class="col-2">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Navigation
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/">Startseite</a>
+                        <a class="dropdown-item" href="/statistiken">Statistiken</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-10">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-warning" v-on:click="getCurrentSeason">Season:</button>
+                    <button type="button" class="btn btn-info" v-on:click="setCurrentSeason(season)" v-bind:class="{active: season.season == currentSeason.season}" v-for="season in seasons">{{season.season}}</button>
+                </div>
             </div>
         </div>
         <h1>Overwatch Match History (Ranked)</h1>

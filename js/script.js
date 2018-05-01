@@ -5,7 +5,20 @@ var app = new Vue({
         isSaved: true,
         notSavedEntriesCount: 0,
         history: [],
-        chunkedMonths: []
+        chunkedMonths: [],
+        currentSeason: {},
+        seasons: [
+            {
+                season: 9,
+                dateStart: moment('2018-02-28'),
+                dateEnd: moment('2018-04-28')
+            },
+            {
+                season: 10,
+                dateStart: moment('2018-05-01'),
+                dateEnd: moment('2018-07-01')
+            }
+        ]
     },
 
     beforeMount: function () {
@@ -19,7 +32,7 @@ var app = new Vue({
                 .then(res => res.json())
                 .then(res => {
                     this.history = res;
-                    this.generateChunkedMonths();
+                    this.getCurrentSeason();
                 });
         },
 
@@ -176,6 +189,7 @@ var app = new Vue({
 
         generateChunkedMonths: function () {
             var history = this.historyDescending();
+            history = this.filterByCurrentSeason(history);
             var temparray = [];
             var curKey = '';
             var nextKey = '';
@@ -206,7 +220,29 @@ var app = new Vue({
             }
             setDifference(temparray);
             this.chunkedMonths = temparray;
-        }
+        },
+
+        getCurrentSeason: function () {
+            this.seasons.forEach(function (season) {
+               if (moment().isBetween(season.dateStart, season.dateEnd)) {
+                   app.currentSeason = season;
+                   return;
+               }
+            });
+            app.generateChunkedMonths();
+        },
+
+        setCurrentSeason: function (season) {
+            app.currentSeason = season;
+            this.generateChunkedMonths();
+        },
+
+        filterByCurrentSeason: function (history) {
+            var history = history || app.history;
+            return history.filter(function (match) {
+                return moment(match.date).isBetween(app.currentSeason.dateStart, app.currentSeason.dateEnd);
+            });
+        },
 
     },
     filters: {
