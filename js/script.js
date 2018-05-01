@@ -67,9 +67,23 @@ var app = new Vue({
                     'Donnerstag',
                     'Freitag',
                     'Samstag'
+                ],
+                months: [
+                    'Januar',
+                    'Februar',
+                    'März',
+                    'April',
+                    'Mai',
+                    'Juni',
+                    'Juli',
+                    'August',
+                    'September',
+                    'Oktober',
+                    'November',
+                    'Dezember'
                 ]
             });
-            return moment(date).format('dddd (DD MMMM YYYY | HH:mm)');
+            return moment(date).format('DD. MMMM YYYY / HH:mm / dddd');
         },
 
         dateClass: function (item) {
