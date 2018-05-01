@@ -76,3 +76,22 @@
 .matchbox {
     width: 400px;
 }
+
+.ow-history h2 {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding: 5px 15px 5px 15px;
+    background-color: #0062cc;
+}
+
+.ow-history h2 .fas {
+    width: 50px;
+    margin-left: auto;
+    text-align: center;
+    cursor: pointer;
+}
+
+.ow-history.hidden table {
+    display: none;
+}
