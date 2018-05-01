@@ -203,7 +203,8 @@ var app = new Vue({
             var curKey = '';
             var nextKey = '';
             if (history.length === 0) {
-                return [];
+                this.chunkedMonths = [];
+                return false;
             }
             var setDifference = function (temparray) {
                 var weekObj = temparray[temparray.length - 1] || {};
@@ -243,12 +244,12 @@ var app = new Vue({
         },
 
         setActiveSeason: function () {
-          app.currentSeason = app.getCurrentSeason();
+          this.currentSeason = this.getCurrentSeason();
           this.updateView();
         },
 
         setCurrentSeason: function (season) {
-            app.currentSeason = season;
+            this.currentSeason = season;
             this.updateView();
         },
 
