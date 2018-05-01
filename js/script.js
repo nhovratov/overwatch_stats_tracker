@@ -65,7 +65,7 @@ var app = new Vue({
 
         getPointsChange: function (newPoints) {
             var change = 0;
-            if (this.history.length > 0) {
+            if (this.history.length > 0 && this.filterByCurrentSeason().length > 0) {
                 change = newPoints - this.history[0].points;
             }
             return change;

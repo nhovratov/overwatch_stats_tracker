@@ -53,6 +53,7 @@
 .table-sm td {
     position: relative;
     padding-left: 1rem;
+    vertical-align: middle;
 }
 
 .table td:nth-child(1) {
