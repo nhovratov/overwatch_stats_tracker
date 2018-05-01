@@ -34,16 +34,18 @@
             </div>
             <div class="col-10">
                 <div class="btn-group" role="group">
-                    <button class="btn btn-warning" v-on:click="getCurrentSeason">Season:</button>
+                    <button class="btn btn-warning" v-on:click="setActiveSeason">Season:</button>
                     <button type="button" class="btn btn-info" v-on:click="setCurrentSeason(season)" v-bind:class="{active: season.season == currentSeason.season}" v-for="season in seasons">{{season.season}}</button>
                 </div>
             </div>
         </div>
         <h1>Overwatch Match History (Ranked)</h1>
-        <label for="newMatch">Match hinzufügen</label><small class="ml-2" v-if="!isSaved">(Ungesicherte Änderungen: {{notSavedEntriesCount}})</small>
-        <div class="matchbox d-flex mb-4">
-            <input id="newMatch" class="form-control mr-4" v-model="newMatch" v-on:keyup.enter="pushEntry">
-            <button v-on:click="saveEntryWithButton" class="btn btn-primary">Abspeichern</button>
+        <div v-if="isCurrentSeason()">
+            <label for="newMatch">Match hinzufügen</label><small class="ml-2" v-if="!isSaved">(Ungesicherte Änderungen: {{notSavedEntriesCount}})</small>
+            <div class="matchbox d-flex mb-4">
+                <input id="newMatch" class="form-control mr-4" v-model="newMatch" v-on:keyup.enter="pushEntry">
+                <button v-on:click="saveEntryWithButton" class="btn btn-primary">Abspeichern</button>
+            </div>
         </div>
         <div class="ow-history" v-bind:class="{hidden: indexOuter > 0}" v-for="(week, indexOuter) in chunkedMonths">
             <h2 class="js-toggle">{{week.week}} (Spiele: {{week.matches.length}}) ({{week.difference | change}})<i v-if="indexOuter > 0" class="fas fa-plus"></i><i v-if="indexOuter == 0" class="fas fa-minus"></i></h2>
@@ -60,7 +62,7 @@
                     <td v-bind:class="rankTier(match)">{{match.points}}<img v-bind:src="rankTier(match) | imagesrc"/>
                     </td>
                     <td v-bind:class="changeClass(match)">{{match.change | change}}<button
-                                v-if="indexOuter == 0 && index == 0" v-on:click="removeLastEntry" class="btn btn-danger btn-sm remove">Löschen</button>
+                                v-if="indexOuter == 0 && index == 0 && isCurrentSeason()" v-on:click="removeLastEntry" class="btn btn-danger btn-sm remove">Löschen</button>
                     </td>
                     <td v-bind:class="dateClass(match)">{{formatDate(match.date)}}</td>
                 </tr>

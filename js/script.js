@@ -32,7 +32,7 @@ var app = new Vue({
                 .then(res => res.json())
                 .then(res => {
                     this.history = res;
-                    this.getCurrentSeason();
+                    this.setActiveSeason();
                 });
         },
 
@@ -60,6 +60,7 @@ var app = new Vue({
             });
             this.isSaved = false;
             this.notSavedEntriesCount++;
+            this.updateView();
         },
 
         getPointsChange: function (newPoints) {
@@ -158,6 +159,10 @@ var app = new Vue({
             });
         },
 
+        updateView: function () {
+          this.generateChunkedMonths();
+        },
+
         saveEntryWithButton: function (e) {
             var input = document.getElementById('newMatch');
             if (input.value !== '') {
@@ -178,9 +183,13 @@ var app = new Vue({
         },
 
         removeLastEntry: function () {
+            if (!moment(this.history[0].date).isBetween(this.getCurrentSeason().dateStart, this.getCurrentSeason().dateEnd)) {
+                return;
+            }
             this.history.shift();
             this.isSaved = false;
             this.notSavedEntriesCount++;
+            this.updateView();
         },
 
         showMore: function (week) {
@@ -223,18 +232,24 @@ var app = new Vue({
         },
 
         getCurrentSeason: function () {
+            var currentSeason = {};
             this.seasons.forEach(function (season) {
                if (moment().isBetween(season.dateStart, season.dateEnd)) {
-                   app.currentSeason = season;
+                   currentSeason =  season;
                    return;
                }
             });
-            app.generateChunkedMonths();
+            return currentSeason;
+        },
+
+        setActiveSeason: function () {
+          app.currentSeason = app.getCurrentSeason();
+          this.updateView();
         },
 
         setCurrentSeason: function (season) {
             app.currentSeason = season;
-            this.generateChunkedMonths();
+            this.updateView();
         },
 
         filterByCurrentSeason: function (history) {
@@ -243,6 +258,10 @@ var app = new Vue({
                 return moment(match.date).isBetween(app.currentSeason.dateStart, app.currentSeason.dateEnd);
             });
         },
+
+        isCurrentSeason: function () {
+            return this.currentSeason.season === this.getCurrentSeason().season;
+        }
 
     },
     filters: {
