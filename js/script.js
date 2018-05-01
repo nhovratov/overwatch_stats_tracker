@@ -4,7 +4,8 @@ var app = new Vue({
         newMatch: '',
         isSaved: true,
         notSavedEntriesCount: 0,
-        history: []
+        history: [],
+        chunkedMonths: []
     },
 
     beforeMount: function () {
@@ -18,6 +19,7 @@ var app = new Vue({
                 .then(res => res.json())
                 .then(res => {
                     this.history = res;
+                    this.generateChunkedMonths();
                 });
         },
 
@@ -166,6 +168,44 @@ var app = new Vue({
             this.history.shift();
             this.isSaved = false;
             this.notSavedEntriesCount++;
+        },
+
+        showMore: function (week) {
+            week.displayMatchesCount = week.matches.length;
+        },
+
+        generateChunkedMonths: function () {
+            var history = this.historyDescending();
+            var temparray = [];
+            var curKey = '';
+            var nextKey = '';
+            if (history.length === 0) {
+                return [];
+            }
+            var setDifference = function (temparray) {
+                var weekObj = temparray[temparray.length - 1] || {};
+                var matchesOfWeek = weekObj.matches;
+                weekObj.difference = matchesOfWeek[0].points - matchesOfWeek[matchesOfWeek.length - 1].points;
+                weekObj.displayMatchesCount = 15;
+                return weekObj;
+            };
+            for (var i = 0; i < history.length; i++) {
+                nextKey = moment(history[i].date).format('WW.YY');
+                if (curKey !== nextKey) {
+                    var weekObj = {};
+                    if (temparray.length > 0) {
+                        setDifference(temparray);
+                    }
+                    curKey = nextKey;
+                    weekObj.week = curKey;
+                    weekObj.matches = [];
+                    temparray.push(weekObj);
+                    weekObj = {};
+                }
+                temparray[temparray.length - 1].matches.push(history[i]);
+            }
+            setDifference(temparray);
+            this.chunkedMonths = temparray;
         }
 
     },
@@ -185,40 +225,6 @@ var app = new Vue({
     },
 
     computed: {
-
-        chunkedMonths: function () {
-            var history = this.historyDescending();
-            var temparray = [];
-            var curKey = '';
-            var nextKey = '';
-            if (history.length === 0) {
-                return [];
-            }
-            var setDifference = function (temparray) {
-                var weekObj = temparray[temparray.length - 1] || {};
-                var matchesOfWeek = weekObj.matches;
-                weekObj.difference = matchesOfWeek[0].points - matchesOfWeek[matchesOfWeek.length - 1].points;
-                return weekObj;
-            };
-            for (var i = 0; i < history.length; i++) {
-                nextKey = moment(history[i].date).format('WW.YY');
-                if (curKey !== nextKey) {
-                    var weekObj = {};
-                    if (temparray.length > 0) {
-                        setDifference(temparray);
-                    }
-                    curKey = nextKey;
-                    weekObj.week = curKey;
-                    weekObj.matches = [];
-                    temparray.push(weekObj);
-                    weekObj = {};
-                }
-                temparray[temparray.length - 1].matches.push(history[i]);
-            }
-            setDifference(temparray);
-            console.log(temparray);
-            return temparray;
-        }
 
     }
 

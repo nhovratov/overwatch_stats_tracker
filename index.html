@@ -46,13 +46,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-if="index < 20" v-for="(match, index) in week.matches">
+                <tr v-if="index < week.displayMatchesCount" v-for="(match, index) in week.matches">
                     <td v-bind:class="rankTier(match)">{{match.points}}<img v-bind:src="rankTier(match) | imagesrc"/>
                     </td>
                     <td v-bind:class="changeClass(match)">{{match.change | change}}<button
                                 v-if="indexOuter == 0 && index == 0" v-on:click="removeLastEntry" class="btn btn-danger btn-sm remove">Löschen</button>
                     </td>
                     <td v-bind:class="dateClass(match)">{{formatDate(match.date)}}</td>
+                </tr>
+                <tr v-if="week.displayMatchesCount < week.matches.length">
+                    <td><button v-on:click="showMore(week)" class="btn btn-primary">Mehr anzeigen</button></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>
