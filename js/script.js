@@ -20,7 +20,7 @@ var app = new Vue({
             },
             {
                 season: 11,
-                dateStart: moment('20118-07-01'),
+                dateStart: moment('2018-07-01'),
                 dateEnd: moment('2018-09-01')
             }
         ]
